@@ -38,6 +38,14 @@ app.get('/game.html', passport.authenticate('jwt', { session : false }), functio
   res.sendFile(__dirname + '/public/game.html');
 });
 
+app.get('/upload.html', passport.authenticate('jwt', { session : false }), function (req, res) {
+  res.sendFile(__dirname + '/public/upload.html');
+});
+
+app.get('/google.html', passport.authenticate('jwt', { session : false }), function (req, res) {
+  res.redirect('http://sli.codes/testapp');
+});
+
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', function (req, res) {
