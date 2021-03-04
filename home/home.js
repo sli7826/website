@@ -9,6 +9,7 @@ const passport = require('passport');
 
 const routes = require('./routes/main');
 const secureRoutes = require('./routes/secure');
+const passwordRoutes = require('./routes/password');
 
 // setup mongo connection
 const uri = process.env.MONGO_CONNECTION_URL;
@@ -20,6 +21,7 @@ mongoose.connection.on('error', (error) => {
 mongoose.connection.on('connected', function () {
   console.log('connected to mongo');
 });
+mongoose.set('useFindAndModify', false);
 
 // create an instance of an express app
 const app = express();
@@ -44,6 +46,7 @@ app.get('/', function (req, res) {
 
 // main routes
 app.use('/', routes);
+app.use('/', passwordRoutes);
 app.use('/', passport.authenticate('jwt', { session : false }), secureRoutes);
 
 // catch all other routes
@@ -53,7 +56,6 @@ app.use((req, res, next) => {
 
 // handle errors
 app.use((err, req, res, next) => {
-  // TODO: add note about updating this
   console.log(err.message);
   res.status(err.status || 500).json({ error: err.message });
 });
