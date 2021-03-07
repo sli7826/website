@@ -18,6 +18,7 @@
     <label for="password" class="sr-only">Password</label>
     <input type="password" id="password" class="form-control" placeholder="Password" required>
     <a class="btn btn-lg btn-primary btn-block" onClick="signIn()">Sign in</a>
+    <div id="failed" style="display: none;">Incorrect email or password. Please try again.</div>
     <a href="/signup.html">Don't have an account? Sign up here.</a>
     <a href="/forgot-password.html">Forgot password? Reset it here.</a>
   </form>
@@ -35,8 +36,9 @@
           window.location.replace('/game.html');
         },
         error: function (xhr) {
-          window.alert(JSON.stringify(xhr));
-          window.location.replace('/index.html');
+          //window.alert(JSON.stringify(xhr));
+          //window.location.replace('/index.html');
+          document.getElementById("failed").style.display="block";
         }
       });
     }

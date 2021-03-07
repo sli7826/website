@@ -42,7 +42,11 @@ app.get('/upload.html', passport.authenticate('jwt', { session : false }), funct
   res.sendFile(__dirname + '/public/upload.html');
 });
 
-app.get('/google.html', passport.authenticate('jwt', { session : false }), function (req, res) {
+app.get('/texttospeech.html', passport.authenticate('jwt', { session : false }), function (req, res) {
+  res.sendFile(__dirname + '/public/texttospeech.html');
+});
+
+app.get('/test.html', passport.authenticate('jwt', { session : false }), function (req, res) {
   res.redirect('http://sli.codes/testapp');
 });
 

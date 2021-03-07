@@ -26,6 +26,9 @@ const UserSchema = new Schema({
   },
   resetTokenExp: {
     type: Date
+  },
+  isAdmin: {
+    type: Boolean
   }
 });
 

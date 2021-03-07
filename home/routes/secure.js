@@ -15,10 +15,12 @@ router.get('/scores', asyncMiddleware(async (req, res, next) => {
   res.status(200).json(users);
 }));
 
-router.post('/upload', asyncMiddleware(async (req, res, next) => {
-  const { email, score } = req.body;
-  await UserModel.updateOne({ email }, { highScore: score });
-  res.status(200).json({ status: 'ok' });
+router.get('/upload', asyncMiddleware(async (req, res, next) => {
+  const { myemail } = req.body;
+  const users = await UserModel.find({email : myemail});
+  //await UserModel.updateOne({ email }, { highScore: score });
+  //if(users.get({admin}))
+  res.status(200).json(users);
 }));
 
 module.exports = router;
