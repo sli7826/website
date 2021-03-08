@@ -10,6 +10,8 @@ const passport = require('passport');
 const routes = require('./routes/main');
 const secureRoutes = require('./routes/secure');
 const passwordRoutes = require('./routes/password');
+const asyncMiddleware = require('./middleware/asyncMiddleware');
+const UserModel = require('./models/userModel');
 
 // setup mongo connection
 const uri = process.env.MONGO_CONNECTION_URL;

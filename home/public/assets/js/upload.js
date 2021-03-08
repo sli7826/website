@@ -1,17 +1,21 @@
-let users;
-var data = {
-    myemail: "a@a"
-};
-$.ajax({
-    type: 'GET',
-    url: '/upload',
-    data,
-    success: function(data) {
-      //game = new Phaser.Game(config);
-      users = data;
-      alert(users);
-    },
-    error: function(xhr) {
-      console.log(xhr);
-    }
-  });
+//var myFormData = new FormData();
+//var form = document.forms.namedItem("fileinfo");
+//var oData = new FormData(form);
+
+function submit(){
+    var form = document.forms.namedItem("fileinfo");
+    var oData = new FormData(form);
+    alert(oData.get)
+    $.ajax({
+        type: 'POST',
+        url: '/upload',
+        data: {
+            refreshToken: getCookie('refreshJwt')
+        },
+        success: function(data) {
+        },
+        error: function(xhr) {
+        console.log(xhr);
+        }
+    });
+}
