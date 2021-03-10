@@ -28,7 +28,12 @@ const UserSchema = new Schema({
     type: Date
   },
   isAdmin: {
-    type: Boolean
+    type: Boolean,
+    default: false
+  },
+  verified: {
+    type: Boolean,
+    default: false
   }
 });
 

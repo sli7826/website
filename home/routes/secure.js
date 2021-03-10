@@ -1,7 +1,8 @@
 const express = require('express');
 const asyncMiddleware = require('../middleware/asyncMiddleware');
 const UserModel = require('../models/userModel');
-var formidable = require('formidable');
+//var multer  = require('multer')
+//var upload = multer({ dest: '../uploads/' })
 
 const router = express.Router();
 
@@ -18,12 +19,18 @@ router.get('/scores', asyncMiddleware(async (req, res, next) => {
 
 router.post('/upload', asyncMiddleware(async (req, res, next) => {
   const { email } = req.user;
-  const users = await UserModel.findOne({ email });
-  if(users.isAdmin){
+  var data;
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    res.status(400).json({ 'message': 'invalid email' });
+    return;
+  }
+  if(user.isAdmin){
     res.status(200).json({ status: true });
   }
-  else
+  else{
     res.status(200).json({ status: false });
+  }
 }));
 
 module.exports = router;

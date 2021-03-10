@@ -13,7 +13,6 @@ passport.use('signup', new localStrategy({
   try {
     const { name } = req.body;
     const user = await UserModel.create({ email, password, name});
-    await UserModel.updateOne({ email }, { isAdmin: false });
     return done(null, user);
   } catch (error) {
     done(error);

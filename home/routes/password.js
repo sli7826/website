@@ -59,6 +59,37 @@ router.post('/forgot-password', asyncMiddleware(async (req, res, next) => {
   res.status(200).json({ message: 'An email has been sent to your email. Password reset link is only valid for 10 minutes.' });
 }));
 
+router.post('/verify-email', asyncMiddleware(async (req, res, next) => {
+  const { email } = req.body;
+  const user = await UserModel.findOne({ email });
+  if (!user) {
+    res.status(400).json({ 'message': 'invalid email' });
+    return;
+  }
+
+  // create user token
+  const buffer = crypto.randomBytes(20);
+  const token = buffer.toString('hex');
+
+  // update user reset password token and exp
+  await UserModel.findByIdAndUpdate({ _id: user._id }, { resetToken: token, resetTokenExp: Date.now() + 600000 });
+
+  // send user password reset email
+  const data = {
+    to: user.email,
+    from: email,
+    template: 'forgot-password',
+    subject: 'sli.codes Password Reset',
+    context: {
+      url: `http://sli.codes/reset-password.html?token=${token}`,
+      name: user.name
+    }
+  };
+  await smtpTransport.sendMail(data);
+
+  res.status(200).json({ message: 'An email has been sent to your email. Password reset link is only valid for 10 minutes.' });
+}));
+
 router.post('/reset-password', asyncMiddleware(async (req, res, next) => {
   const user = await UserModel.findOne({ resetToken: req.body.token, resetTokenExp: { $gt: Date.now() } });
   if (!user) {
